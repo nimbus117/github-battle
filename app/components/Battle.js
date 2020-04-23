@@ -1,40 +1,43 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   FaUserFriends,
   FaFighterJet,
   FaTrophy,
   FaTimesCircle,
 } from 'react-icons/fa';
+import PropTypes from 'prop-types';
 import Results from './Results';
 
-const Instructions = () => (
-  <div className="instructions-container">
-    <h1 className="center-text header-lg">Instructions</h1>
-    <ol className="container-sm grid center-text battle-instructions">
-      <li>
-        <h3 className="header-sm">Enter two Github Users</h3>
-        <FaUserFriends
-          className="bg-light"
-          color="rgb(255,191,116)"
-          size={140}
-        />
-      </li>
-      <li>
-        <h3 className="header-sm">Battle</h3>
-        <FaFighterJet className="bg-light" color="#727272" size={140} />
-      </li>
-      <li>
-        <h3 className="header-sm">See the winners</h3>
-        <FaTrophy className="bg-light" color="rgb(255,215,0)" size={140} />
-      </li>
-    </ol>
-  </div>
-);
+function Instructions() {
+  return (
+    <div className="instructions-container">
+      <h1 className="center-text header-lg">Instructions</h1>
+      <ol className="container-sm grid center-text battle-instructions">
+        <li>
+          <h3 className="header-sm">Enter two Github users</h3>
+          <FaUserFriends
+            className="bg-light"
+            color="rgb(255, 191, 116)"
+            size={140}
+          />
+        </li>
+        <li>
+          <h3 className="header-sm">Battle</h3>
+          <FaFighterJet className="bg-light" color="#727272" size={140} />
+        </li>
+        <li>
+          <h3 className="header-sm">See the winners</h3>
+          <FaTrophy className="bg-light" color="rgb(255, 215, 0)" size={140} />
+        </li>
+      </ol>
+    </div>
+  );
+}
 
 class PlayerInput extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       username: '',
     };
@@ -42,21 +45,19 @@ class PlayerInput extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
-
   handleSubmit(event) {
     event.preventDefault();
+
     this.props.onSubmit(this.state.username);
   }
-
   handleChange(event) {
     this.setState({
       username: event.target.value,
     });
   }
-
   render() {
     return (
-      <form className="column player" action="" onSubmit={this.handleSubmit}>
+      <form className="column player" onSubmit={this.handleSubmit}>
         <label htmlFor="username" className="player-label">
           {this.props.label}
         </label>
@@ -67,7 +68,7 @@ class PlayerInput extends React.Component {
             className="input-light"
             placeholder="github username"
             autoComplete="off"
-            vlaue={this.state.username}
+            value={this.state.username}
             onChange={this.handleChange}
           />
           <button
@@ -104,7 +105,7 @@ function PlayerPreview({ username, onReset, label }) {
           </a>
         </div>
         <button className="btn-clear flex-center" onClick={onReset}>
-          <FaTimesCircle className="link" color="rgb(194, 57, 42)" size={26} />
+          <FaTimesCircle color="rgb(194, 57, 42)" size={26} />
         </button>
       </div>
     </div>
@@ -130,24 +131,33 @@ export default class Battle extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleReset = this.handleReset.bind(this);
   }
-
   handleSubmit(id, player) {
     this.setState({
       [id]: player,
     });
   }
-
   handleReset(id) {
     this.setState({
       [id]: null,
     });
   }
-
   render() {
     const { playerOne, playerTwo, battle } = this.state;
 
     if (battle === true) {
-      return <Results playerOne={playerOne} playerTwo={playerTwo} />;
+      return (
+        <Results
+          playerOne={playerOne}
+          playerTwo={playerTwo}
+          onReset={() =>
+            this.setState({
+              playerOne: null,
+              playerTwo: null,
+              battle: false,
+            })
+          }
+        />
+      );
     }
 
     return (
@@ -183,6 +193,7 @@ export default class Battle extends React.Component {
               />
             )}
           </div>
+
           {playerOne && playerTwo && (
             <button
               className="btn dark-btn btn-space"
