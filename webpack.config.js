@@ -6,10 +6,11 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index_bundle.js',
+    publicPath: '/',
   },
   module: {
     rules: [
-      { test: /\.(js)$/, use: 'babel-loader' },
+      { test: /\.js$/, use: 'babel-loader' },
       { test: /\.css$/, use: ['style-loader', 'css-loader'] },
     ],
   },
@@ -23,5 +24,6 @@ module.exports = {
     port: 3000,
     host: '0.0.0.0',
     disableHostCheck: true,
+    historyApiFallback: true,
   },
 };
