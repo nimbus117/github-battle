@@ -2,28 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class Hover extends React.Component {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    children: PropTypes.func.isRequired,
+  };
 
-    this.state = {
-      hovering: false,
-    };
+  state = {
+    hovering: false,
+  };
 
-    this.mouseOver = this.mouseOver.bind(this);
-    this.mouseOut = this.mouseOut.bind(this);
-  }
-
-  mouseOver() {
+  mouseOver = () => {
     this.setState({
       hovering: true,
     });
-  }
+  };
 
-  mouseOut() {
+  mouseOut = () => {
     this.setState({
       hovering: false,
     });
-  }
+  };
 
   render() {
     return (
@@ -33,7 +30,3 @@ export default class Hover extends React.Component {
     );
   }
 }
-
-Hover.propTypes = {
-  children: PropTypes.func.isRequired,
-};
