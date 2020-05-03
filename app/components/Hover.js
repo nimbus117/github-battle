@@ -1,32 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class Hover extends React.Component {
-  static propTypes = {
-    children: PropTypes.func.isRequired,
-  };
+const Hover = ({ children }) => {
+  const [hovering, setHovering] = React.useState(false);
 
-  state = {
-    hovering: false,
-  };
+  return (
+    <div
+      onMouseOver={() => setHovering(true)}
+      onMouseOut={() => setHovering(false)}
+    >
+      {children(hovering)}
+    </div>
+  );
+};
 
-  mouseOver = () => {
-    this.setState({
-      hovering: true,
-    });
-  };
+Hover.propTypes = {
+  children: PropTypes.func.isRequired,
+};
 
-  mouseOut = () => {
-    this.setState({
-      hovering: false,
-    });
-  };
-
-  render() {
-    return (
-      <div onMouseOver={this.mouseOver} onMouseOut={this.mouseOut}>
-        {this.props.children(this.state.hovering)}
-      </div>
-    );
-  }
-}
+export default Hover;
